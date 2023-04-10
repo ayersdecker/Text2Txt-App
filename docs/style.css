@@ -48,9 +48,3 @@ body {
     width: 100%;
     text-align: center;
   }
-  section {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #aaaaaa;
-    justify-content: space-between;
-  }

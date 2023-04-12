@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Text2Txt.MainPage"
+             Title="[ Text 2 Txt PROTOTYPE ]">
+
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="ScanPhoto"
+                    Text="Scan Photo"
+                    Grid.Row="0"
+                    Clicked="Scan_Photo_Clicked"/>
+            <Label x:Name="OutputText"
+                   Text=" "
+                   Grid.Row="1"/>
+            <Label x:Name="SimplifiedText"
+                   Text=" "
+                   Grid.Row="2"/>
+
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

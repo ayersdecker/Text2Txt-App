@@ -11,7 +11,8 @@ namespace Text2Txt
     public class AI
     {
         // API Key for OpenAI
-        public string apiKey = "API KEY GOES HERE"; 
+        public string apiKey = "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";
+
         public static async Task<string> APICall(string prompt, string apiKey) // Takes the prompt and the API key and returns the response
         {
             // API call
@@ -34,5 +35,7 @@ namespace Text2Txt
             return json.choices[0].text;
 
         }
+
+
     }
 }

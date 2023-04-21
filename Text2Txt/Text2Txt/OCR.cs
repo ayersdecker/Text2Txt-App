@@ -30,7 +30,7 @@ namespace Text2Txt
                 var Result = Ocr.Read(Input);
 
                 // Return the text from the image as a string with any line breaks removed.
-                return Result.Text.Replace("\r", "").Replace("\n", " ");
+                return Result.Text.Replace("\r", "").Replace("\n", " ").Replace("\"", " ");
             }
         }
         public async Task<string> SelectImage()

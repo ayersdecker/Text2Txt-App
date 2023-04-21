@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UIImp.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <Button x:Name="StartText"
+                    Text="Start a Text"
+                    HeightRequest="100"
+                    BorderColor="White"
+                    TextColor="White"
+                    BackgroundColor="Black"
+                    Clicked="StartText_Clicked"/>
+            <Button x:Name="ViewText"
+                    Text="View your Texts"
+                    HeightRequest="100"
+                    BorderColor="White"
+                    TextColor="White"
+                    BackgroundColor="Black"
+                    Clicked="ViewText_Clicked"/>
+            <Button x:Name="Settings"
+                    Text="Settings"
+                    HeightRequest="100"
+                    BorderColor="White"
+                    TextColor="White"
+                    BackgroundColor="Black"
+                    Clicked="Settings_Clicked"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

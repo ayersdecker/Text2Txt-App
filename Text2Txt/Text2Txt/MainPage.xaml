@@ -8,19 +8,21 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <Label x:Name="Status"  Text="Not Running" Grid.Row="0"/>
             <Button x:Name="ScanPhoto"
                     Text="Scan Photo"
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Clicked="Scan_Photo_Clicked"/>
             <Label x:Name="OutputText"
                    Text=" "
-                   Grid.Row="1"/>
+                   Grid.Row="2"/>
             <Label x:Name="SimplifiedText"
                    Text=" "
-                   Grid.Row="2"/>
+                   Grid.Row="3"/>
 
         </Grid>
     </ScrollView>

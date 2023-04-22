@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using TesseractOcrMaui;
 
 namespace Text2Txt;
 
@@ -16,9 +17,20 @@ public static class MauiProgram
 			});
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        // Inject logging, (optional, but gives info)
+        builder.Services.AddLogging();
+
+        // Inject library functionality
+        builder.Services.AddTesseractOcr(
+            files =>
+            {
+                files.AddFile("eng.traineddata");
+            });
+
+        // Inject main page
+        builder.Services.AddSingleton<MainPage>();
 #endif
 
-		return builder.Build();
+        return builder.Build();
 	}
 }

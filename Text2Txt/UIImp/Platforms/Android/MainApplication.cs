@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace UIImp
+namespace UIImp.Platforms.Android
 {
     [Application]
     public class MainApplication : MauiApplication

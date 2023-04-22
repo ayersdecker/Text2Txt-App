@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using BitMiracle.LibTiff.Classic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,13 @@ namespace Text2Txt
     public class AI
     {
         // API Key for OpenAI
-        public string apiKey = "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";
+        public string apiKey = "API KEY HERE";
 
         public static async Task<string> APICall(string prompt, string apiKey) // Takes the prompt and the API key and returns the response
         {
             // API call
             var client = new HttpClient();
+            prompt = prompt.Replace("\r", "").Replace("\n", " ").Replace("\"", " ");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             var request = new HttpRequestMessage
             {

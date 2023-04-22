@@ -49,9 +49,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Raw\eng.traineddata" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="IronOcr" Version="2023.4.13" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="TesseractOcrMaui" Version="1.0.6" />
 	</ItemGroup>
 
 </Project>

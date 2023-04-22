@@ -1,4 +1,6 @@
-﻿namespace Mobile_Version
+﻿using Mobile_Version.ViewModels;
+
+namespace Mobile_Version
 {
     public partial class App : Application
     {

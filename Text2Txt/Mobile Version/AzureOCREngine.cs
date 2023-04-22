@@ -13,8 +13,8 @@ namespace Mobile_Version
 {
     class AzureOcrEngine : IOcrEngine
     {
-        private string subscriptionKey = "ead2ae5377cc4d26b03e6918c7c2a95e";
-        private string endpoint = "https://deckerayerstext2txt.cognitiveservices.azure.com/";
+        private string subscriptionKey = "REDACTED";
+        private string endpoint = "REDACTED";
 
         public OCRLayoutResult PerformOCR(Stream imgStream)
         {

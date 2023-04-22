@@ -11,15 +11,13 @@ namespace Mobile_Version
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-        MainViewModel viewModel;
+        MainViewModel viewModel = new MainViewModel();
         PopupPage popup;
 
-        public MainPage(MainViewModel vm)
+        public MainPage()
         {
             InitializeComponent();
-            BindingContext = vm;
-            viewModel = vm;
+            BindingContext = viewModel;
         }
         private void OnCameraClicked(object sender, EventArgs e)
         {

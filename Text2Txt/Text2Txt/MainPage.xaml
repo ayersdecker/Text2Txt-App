@@ -57,22 +57,12 @@
                         Clicked="SettingButton_Clicked"/>
             </VerticalStackLayout>
 
-            <!--Settings Screen-->
-            <VerticalStackLayout x:Name="SettingsPage" IsVisible="false">
-                <Label Text="OpenAI API Key" Margin="10"/>
-                <Entry Placeholder="Place Key Here" Margin="10"/>
-                <Button x:Name="SaveSettingButton"
-                    Text="Save" 
-                    Margin="0,50,0,0"
-                    WidthRequest="200"/>
-
-
-            </VerticalStackLayout>
             
             <!--Create Texts-->
             <VerticalStackLayout x:Name="CreatePage" IsVisible="false">
                 <!--Lexile-->
                 <VerticalStackLayout x:Name="LexileMenu" IsVisible="true">
+                    <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
                     <Label Text="How simplified do you want the text?" HorizontalOptions="Center" Margin="0,150,0,0" FontSize="Medium" FontAttributes="Bold"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,50,0,0" >
                         <Button x:Name="EasyButton" Text="Easy" Clicked="OnEasyClicked" Background="#BBBBBB" WidthRequest="100"/>
@@ -83,6 +73,7 @@
                 </VerticalStackLayout>
                 <!--InputType-->
                 <VerticalStackLayout x:Name="InputMenu" IsVisible="false">
+                    <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
                     <Label Text="What Input Method do you choose?" HorizontalOptions="Center" Margin="0,150,0,0" FontSize="Medium" FontAttributes="Bold"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,50,0,0" >
                         <Button x:Name="CaptureButton" Text="Capture" Clicked="CaptureButton_Clicked"  Background="#BBBBBB" WidthRequest="100"/>
@@ -93,14 +84,17 @@
                 </VerticalStackLayout>
                 <!--OCR-->
                 <VerticalStackLayout x:Name="OCRMenu" IsVisible="false">
+                    <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
                     
                 </VerticalStackLayout>
                 <!--File-->
                 <VerticalStackLayout x:Name="FileMenu" IsVisible="false">
+                    <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
 
                 </VerticalStackLayout>
                 <!--Paste-->
                 <VerticalStackLayout x:Name="PasteMenu" IsVisible="false">
+                    <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
@@ -109,6 +103,18 @@
             <VerticalStackLayout x:Name="ViewPage" IsVisible="false">
 
             </VerticalStackLayout>
+            
+            <!--Settings Screen-->
+            <VerticalStackLayout x:Name="SettingsPage" IsVisible="false">
+                <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
+                <Label Text="OpenAI API Key" Margin="10"/>
+                <Entry x:Name="ApiKeyEntry" Placeholder="Place Key Here" Margin="10"/>
+                <Button x:Name="SaveSettingButton"
+                    Text="Save" 
+                    Margin="0,50,0,0"
+                    WidthRequest="200"/>
+            </VerticalStackLayout>
+            
 
 
 

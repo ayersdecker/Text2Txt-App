@@ -4,7 +4,6 @@ using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Storage;
 using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TesseractOcrMaui;
 using TesseractOcrMaui.Extensions;
@@ -18,11 +17,16 @@ public partial class MainPage : ContentPage
     public const int LEXILE_HARD = 800;
     public int LexileLevel = 0;
     public int InputMethod = 0;
+    public string apiKey = "";
 
 	public MainPage(ITesseract tesseract)
 	{
 		InitializeComponent();
 		Tesseract = tesseract;
+        //Database.CreateDatabase();
+        //Database.CheckTable();
+        //apiKey = Database.RetrieveApiKey();
+        //ApiKeyEntry.Placeholder = apiKey;
 	}
 	ITesseract Tesseract { get; }
 
@@ -79,20 +83,24 @@ public partial class MainPage : ContentPage
         return result.RecognisedText;
     }
 
+    // MASTER PAGE ----------------------------------------------------------------------------------------------------------------------------
+
+    // CREATE TEXT PAGE
     private void CreateButton_Clicked(object sender, EventArgs e)
     {
         PageFlipper(2);
     }
-
+    // VIEW TEXT PAGE
     private void ViewButton_Clicked(object sender, EventArgs e)
     {
         PageFlipper(3);
     }
-
+    // SETTINGS PAGE
     private void SettingButton_Clicked(object sender, EventArgs e)
     {
         PageFlipper(4);
     }
+    // MASTER FUNCTION PAGE FLIPPER
     private void PageFlipper(int pageNumber)
     {
         CloseAllPages();
@@ -103,6 +111,7 @@ public partial class MainPage : ContentPage
                     break;
                 case 2:
                     CreatePage.IsVisible = true;
+                    LexileMenu.IsVisible = true;
                     break;
                 case 3:
                     ViewPage.IsVisible = true;
@@ -112,6 +121,7 @@ public partial class MainPage : ContentPage
                     break;
         }
     }
+    // MASTER FUNCTION PAGE CLOSE
     private void CloseAllPages()
     {
         PrototypePage.IsVisible = false;
@@ -119,7 +129,19 @@ public partial class MainPage : ContentPage
         CreatePage.IsVisible = false;
         ViewPage.IsVisible = false;
         SettingsPage.IsVisible = false;
+    } 
+    private void BackButton_Clicked(object sender, EventArgs e)
+    {
+        CloseAllPages();
+        CloseCreatePages();
+        CloseViewPages();
+        CloseSettingsPages();
+        PageFlipper(1);
     }
+
+    // CREATE PAGE --------------------------------------------------------------------------------------------------------------------------
+    
+    // CREATE PAGE CLOSE
     private void CloseCreatePages()
     {
         LexileMenu.IsVisible = false;
@@ -162,7 +184,6 @@ public partial class MainPage : ContentPage
             InputMenu.IsVisible = true;
         }
     }
-
     private void CaptureButton_Clicked(object sender, EventArgs e)
     {
         CaptureButton.Background = new SolidColorBrush(Color.FromHex("#6600FF"));
@@ -170,7 +191,6 @@ public partial class MainPage : ContentPage
         PasteButton.Background = new SolidColorBrush(Color.FromHex("#BBBBBB"));
         InputMethod = 1;
     }
-
     private void FromFileButton_Clicked(object sender, EventArgs e)
     {
         CaptureButton.Background = new SolidColorBrush(Color.FromHex("#BBBBBB"));
@@ -178,7 +198,6 @@ public partial class MainPage : ContentPage
         PasteButton.Background = new SolidColorBrush(Color.FromHex("#BBBBBB"));
         InputMethod = 2;
     }
-
     private void PasteButton_Clicked(object sender, EventArgs e)
     {
         CaptureButton.Background = new SolidColorBrush(Color.FromHex("#BBBBBB"));
@@ -186,7 +205,6 @@ public partial class MainPage : ContentPage
         PasteButton.Background = new SolidColorBrush(Color.FromHex("#6600FF"));
         InputMethod = 3;
     }
-
     private void InputMethodNextButton_Clicked(object sender, EventArgs e)
     {
         if (InputMethod == 0)
@@ -210,5 +228,22 @@ public partial class MainPage : ContentPage
             }
         }
     }
-}
 
+    // View Page ----------------------------------------------------------------------------------------------------------------------------
+
+    // VIEW PAGE CLOSE
+    private void CloseViewPages()
+    {
+    }
+
+
+
+    // SETTINGS PAGE ------------------------------------------------------------------------------------------------------------------------
+
+    // SETTINGS PAGE CLOSE
+    private void CloseSettingsPages()
+    {
+    }
+
+ 
+}

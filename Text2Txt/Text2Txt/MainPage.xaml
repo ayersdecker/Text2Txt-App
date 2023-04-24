@@ -2,10 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Text2Txt.MainPage"
-             Title="[ Text 2 Txt PROTOTYPE ]">
+             Title="Text 2 Txt">
 
     <ScrollView>
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--PROTOTYPE GRID-->
+            <Grid x:Name="PrototypePage"  Row="0" IsVisible="false">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
@@ -23,6 +28,101 @@
             <Label x:Name="SimplifiedText"
                    Text=" "
                    Grid.Row="3"/>
+
+        </Grid>
+            
+            
+            <!--Main Menu-->
+            <VerticalStackLayout x:Name="MenuPage" IsVisible="true">
+                <Button x:Name="CreateButton"
+                        Margin="20,20,20,0"
+                        Text="Create New"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        HeightRequest="100"
+                        Clicked="CreateButton_Clicked"/>
+                <Button x:Name="ViewButton"
+                        Margin="20,20,20,0"
+                        Text="View Past Files"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        HeightRequest="100"
+                        Clicked="ViewButton_Clicked"/>
+                <Button x:Name="SettingButton"
+                        Margin="20,20,20,0"
+                        Text="Settings"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        HeightRequest="100"
+                        Clicked="SettingButton_Clicked"/>
+            </VerticalStackLayout>
+
+            <!--Settings Screen-->
+            <VerticalStackLayout x:Name="SettingsPage" IsVisible="false">
+                <Label Text="OpenAI API Key" Margin="10"/>
+                <Entry Placeholder="Place Key Here" Margin="10"/>
+                <Button x:Name="SaveSettingButton"
+                    Text="Save" 
+                    Margin="0,50,0,0"
+                    WidthRequest="200"/>
+
+
+            </VerticalStackLayout>
+            
+            <!--Create Texts-->
+            <VerticalStackLayout x:Name="CreatePage" IsVisible="false">
+                <!--Lexile-->
+                <VerticalStackLayout x:Name="LexileMenu" IsVisible="true">
+                    <Label Text="How simplified do you want the text?" HorizontalOptions="Center" Margin="0,150,0,0" FontSize="Medium" FontAttributes="Bold"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,50,0,0" >
+                        <Button x:Name="EasyButton" Text="Easy" Clicked="OnEasyClicked" Background="#BBBBBB" WidthRequest="100"/>
+                        <Button x:Name="MediumButton" Text="Medium" Clicked="OnMediumClicked" Background="#BBBBBB" WidthRequest="100"/>
+                        <Button x:Name="HardButton" Text="Hard" Clicked="OnHardClicked" Background="#BBBBBB" WidthRequest="100"/>
+                    </StackLayout>
+                    <Button x:Name="LexileScoreNextButton" Text="Next >" Margin="20,150,20,0" Clicked="LexileScoreNextButton_Clicked"/>
+                </VerticalStackLayout>
+                <!--InputType-->
+                <VerticalStackLayout x:Name="InputMenu" IsVisible="false">
+                    <Label Text="What Input Method do you choose?" HorizontalOptions="Center" Margin="0,150,0,0" FontSize="Medium" FontAttributes="Bold"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,50,0,0" >
+                        <Button x:Name="CaptureButton" Text="Capture" Clicked="CaptureButton_Clicked"  Background="#BBBBBB" WidthRequest="100"/>
+                        <Button x:Name="FromFileButton" Text="From File" Clicked="FromFileButton_Clicked" Background="#BBBBBB" WidthRequest="100"/>
+                        <Button x:Name="PasteButton" Text="Paste" Clicked="PasteButton_Clicked" Background="#BBBBBB" WidthRequest="100"/>
+                    </StackLayout>
+                    <Button x:Name="InputMethodNextButton" Text="Next >" Margin="20,150,20,0" Clicked="InputMethodNextButton_Clicked"/>
+                </VerticalStackLayout>
+                <!--OCR-->
+                <VerticalStackLayout x:Name="OCRMenu" IsVisible="false">
+                    
+                </VerticalStackLayout>
+                <!--File-->
+                <VerticalStackLayout x:Name="FileMenu" IsVisible="false">
+
+                </VerticalStackLayout>
+                <!--Paste-->
+                <VerticalStackLayout x:Name="PasteMenu" IsVisible="false">
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            
+            <!--View Texts-->
+            <VerticalStackLayout x:Name="ViewPage" IsVisible="false">
+
+            </VerticalStackLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         </Grid>
     </ScrollView>

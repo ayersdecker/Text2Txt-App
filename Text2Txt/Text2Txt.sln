@@ -5,12 +5,6 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Text2Txt", "Text2Txt\Text2Txt.csproj", "{8C47C3AC-E7AA-4CB3-A2A7-07A3440E8EE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mobile Version", "Mobile Version\Mobile Version.csproj", "{A7AA56FC-01FE-47A0-A0EA-53940671204D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIImp", "UIImp\UIImp.csproj", "{7A403AB1-E1A9-49FC-BBE5-CD9E06431283}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OCRTroubles", "OCRTroubles\OCRTroubles.csproj", "{9F984BC8-5693-4A5E-B740-B77C7F4CD13D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,22 +17,6 @@ Global
 		{8C47C3AC-E7AA-4CB3-A2A7-07A3440E8EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C47C3AC-E7AA-4CB3-A2A7-07A3440E8EE7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8C47C3AC-E7AA-4CB3-A2A7-07A3440E8EE7}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{A7AA56FC-01FE-47A0-A0EA-53940671204D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7AA56FC-01FE-47A0-A0EA-53940671204D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7AA56FC-01FE-47A0-A0EA-53940671204D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{A7AA56FC-01FE-47A0-A0EA-53940671204D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7AA56FC-01FE-47A0-A0EA-53940671204D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7AA56FC-01FE-47A0-A0EA-53940671204D}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{7A403AB1-E1A9-49FC-BBE5-CD9E06431283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A403AB1-E1A9-49FC-BBE5-CD9E06431283}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A403AB1-E1A9-49FC-BBE5-CD9E06431283}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{7A403AB1-E1A9-49FC-BBE5-CD9E06431283}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A403AB1-E1A9-49FC-BBE5-CD9E06431283}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A403AB1-E1A9-49FC-BBE5-CD9E06431283}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{9F984BC8-5693-4A5E-B740-B77C7F4CD13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F984BC8-5693-4A5E-B740-B77C7F4CD13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F984BC8-5693-4A5E-B740-B77C7F4CD13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F984BC8-5693-4A5E-B740-B77C7F4CD13D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

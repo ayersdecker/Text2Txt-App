@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TesseractOcrMaui;
 using TesseractOcrMaui.Extensions;
+using Text2Txt.Models;
 
 namespace Text2Txt;
 
@@ -17,7 +18,9 @@ public partial class MainPage : ContentPage
     public const int LEXILE_HARD = 800;
     public int LexileLevel = 0;
     public int InputMethod = 0;
-    public string apiKey = "";
+    public string InputText = "";
+    public string InputPath = "";
+    public string apiKey = "API KEY HERE";
 
 	public MainPage(ITesseract tesseract)
 	{
@@ -50,37 +53,12 @@ public partial class MainPage : ContentPage
         SimplifiedText.Text = aiBucket;
 		Status.Text = "Not Running";
 	}
-    private async Task<string> PerformOCR()
+    
+    private async Task<AIResponse> TextToAI(string text, int lexile, string apiKey)
     {
-        // Make user pick file
-        #pragma warning disable CA1416 // Validate platform compatibility
-        var pickResult = await FilePicker.PickAsync(new PickOptions()
-        {
-            PickerTitle = "Pick png image",
-            // Currently usable image types
-            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>()
-            {
-                [DevicePlatform.Android] = new List<string>() { "image/png", "image/jpeg" },
-                [DevicePlatform.WinUI] = new List<string>() { ".png", ".jpg", ".jpeg" },
-            })
-        });
-        #pragma warning restore CA1416 // Validate platform compatibility
-                              // null if user cancelled the operation
-        if (pickResult is null)
-        {
-            return null;
-        }
-
-        // Recognize image
-        var result = await Tesseract.RecognizeTextAsync(pickResult.FullPath);
-
-        // Show output
-        Status.Text = $"Confidence: {result.Confidence}";
-        if (result.NotSuccess())
-        {
-            return $"Recognizion failed: {result.Status}";
-        }
-        return result.RecognisedText;
+        string prompt = $"Simplify the reading level of this text to a lexile score of {lexile} -> {text}";
+        return await AI.AICALL(prompt, apiKey);
+        
     }
 
     // MASTER PAGE ----------------------------------------------------------------------------------------------------------------------------
@@ -149,8 +127,9 @@ public partial class MainPage : ContentPage
         OCRMenu.IsVisible = false;
         FileMenu.IsVisible = false;
         PasteMenu.IsVisible = false;
+        CreateLoading.IsVisible = false;
+        ResultPage.IsVisible = false;
     }
-
     private void OnEasyClicked(object sender, EventArgs e)
     {
         EasyButton.Background = new SolidColorBrush(Color.FromHex("#6600FF"));
@@ -228,6 +207,93 @@ public partial class MainPage : ContentPage
             }
         }
     }
+    private async Task<string> PerformOCR()
+    {
+        // Make user pick file
+        #pragma warning disable CA1416 // Validate platform compatibility
+        var pickResult = await FilePicker.PickAsync(new PickOptions()
+        {
+            PickerTitle = "Pick png image",
+            // Currently usable image types
+            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>()
+            {
+                [DevicePlatform.Android] = new List<string>() { "image/png", "image/jpeg" },
+                [DevicePlatform.WinUI] = new List<string>() { ".png", ".jpg", ".jpeg" },
+            })
+        });
+        #pragma warning restore CA1416 // Validate platform compatibility
+                              // null if user cancelled the operation
+        if (pickResult is null)
+        {
+            return null;
+        }
+
+        // Recognize image
+        var result = await Tesseract.RecognizeTextAsync(pickResult.FullPath);
+
+        // Show output
+        if (result.NotSuccess())
+        {
+            return null;
+        }
+        InputPath = pickResult.FullPath;
+        return result.RecognisedText;
+    }
+    private async Task PickFromFolderButton_Clicked(object sender, EventArgs e)
+    {
+        InputText = await PerformOCR();
+        if(InputText == null)
+        {
+            await DisplayAlert("Error", "Please select a valid image", "OK");
+            PathLabel.Text = "Path: null";
+        }
+        else
+        {
+            PathLabel.Text = "Path: " + InputText;
+        }
+    }
+    private void PickFromFolderButton_Clicked_1(object sender, EventArgs e)
+    {
+        PickFromFolderButton_Clicked(sender, e);
+    } 
+    private async void PasteNextButton_Clicked(object sender, EventArgs e)
+    {
+        InputText = PasteEditor.Text;
+        if (InputText == null) { await DisplayAlert("Error", "Please paste valid text", "OK"); }
+        else
+        {
+            CloseCreatePages();
+            CreateLoading.IsVisible = true;
+            ActivityLabel.Text = "Creating Request...";
+            ActivityLabel.Text = "Waiting on OpenAI...";
+            AIResponse aI = await TextToAI(InputText, LexileLevel, apiKey);
+            CloseCreatePages();
+            ResultPage.IsVisible = true;
+            ResultLabel.Text = aI.Name;
+            ResultTextBox.Text = aI.Text;
+        }
+    }
+
+    private void OCRNextButton_Clicked(object sender, EventArgs e)
+    {
+        if (InputText == null)
+        {
+            DisplayAlert("Error", "Please select a valid image", "OK");
+        }
+        else
+        {
+            CloseCreatePages();
+            CreateLoading.IsVisible = true;
+            ActivityLabel.Text = "Creating Request...";
+            ActivityLabel.Text = "Waiting on OpenAI...";
+            AIResponse aI = TextToAI(InputText, LexileLevel, apiKey).Result;
+            CloseCreatePages();
+            ResultPage.IsVisible = true;
+            ResultLabel.Text = aI.Name;
+            ResultTextBox.Text = aI.Text;
+
+        }
+    }
 
     // View Page ----------------------------------------------------------------------------------------------------------------------------
 
@@ -245,5 +311,5 @@ public partial class MainPage : ContentPage
     {
     }
 
- 
+   
 }

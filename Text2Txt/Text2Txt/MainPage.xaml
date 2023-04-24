@@ -85,7 +85,9 @@
                 <!--OCR-->
                 <VerticalStackLayout x:Name="OCRMenu" IsVisible="false">
                     <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
-                    
+                    <Label x:Name="PathLabel" Text="Path: null" HorizontalOptions="Center" Margin="20,150,20,20"/>
+                    <Button x:Name="PickFromFolderButton" Text="Select" WidthRequest="200" Clicked="PickFromFolderButton_Clicked_1"/>
+                    <Button x:Name="OCRNextButton" Text="Next" WidthRequest="200" Margin="150" Clicked="OCRNextButton_Clicked"/>
                 </VerticalStackLayout>
                 <!--File-->
                 <VerticalStackLayout x:Name="FileMenu" IsVisible="false">
@@ -95,7 +97,20 @@
                 <!--Paste-->
                 <VerticalStackLayout x:Name="PasteMenu" IsVisible="false">
                     <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
-
+                    <Editor x:Name="PasteEditor" Placeholder="Paste your text here"/>
+                    <Button x:Name="PasteNextButton" Text="Next" WidthRequest="200" Margin="150" Clicked="PasteNextButton_Clicked"/>
+                </VerticalStackLayout>
+                <!--LoadingPage-->
+                <VerticalStackLayout x:Name="CreateLoading" IsVisible="false">
+                    <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
+                    <Label x:Name="ActivityLabel" Text="Creating Request..." HorizontalOptions="Center" Margin="0,150,0,0" FontSize="Medium" FontAttributes="Bold"/>
+                    <ActivityIndicator IsRunning="true" IsVisible="true" Color="Black" Margin="0,150,0,0"/>
+                </VerticalStackLayout>
+                <!--Result Page-->
+                <VerticalStackLayout x:Name="ResultPage" IsVisible="false">
+                    <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
+                    <Label x:Name="ResultLabel" Text="Title: " Margin="10,10,10,50"/>
+                    <Editor x:Name="ResultTextBox" Text="" Margin="10,10,10,0"/>
                 </VerticalStackLayout>
             </VerticalStackLayout>
             

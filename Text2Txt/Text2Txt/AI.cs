@@ -58,8 +58,10 @@ namespace Text2Txt
             dynamic json = JsonConvert.DeserializeObject(responseContent);
             //return json.choices[0].text;
             string code = " ";
+            string name = "Default Text";
+            string result = json.choices[0].text;
 
-            return new AIResponse(code,json.choices[0].text);
+            return new AIResponse(code,name,result);
         }
 
 

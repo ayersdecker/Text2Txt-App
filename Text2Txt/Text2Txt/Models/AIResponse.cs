@@ -21,7 +21,7 @@ namespace Text2Txt.Models
         public AIResponse(string code, string text)
         {
             this.Code = code;
-            this.Name = DateTime.Now.ToString();
+            this.Name = "No Name";
             this.Text = text;
         }
         public AIResponse(string code, string name, string text)

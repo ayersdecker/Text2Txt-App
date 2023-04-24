@@ -20,7 +20,7 @@ public partial class MainPage : ContentPage
     public int InputMethod = 0;
     public string InputText = "";
     public string InputPath = "";
-    public string apiKey = "API KEY HERE";
+    public string apiKey = "";
 
 	public MainPage(ITesseract tesseract)
 	{
@@ -249,7 +249,7 @@ public partial class MainPage : ContentPage
         }
         else
         {
-            PathLabel.Text = "Path: " + InputText;
+            PathLabel.Text = "Path: Selected";
         }
     }
     private void PickFromFolderButton_Clicked_1(object sender, EventArgs e)
@@ -273,7 +273,6 @@ public partial class MainPage : ContentPage
             ResultTextBox.Text = aI.Text;
         }
     }
-
     private void OCRNextButton_Clicked(object sender, EventArgs e)
     {
         if (InputText == null)
@@ -295,14 +294,12 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // View Page ----------------------------------------------------------------------------------------------------------------------------
+    // VIEW PAGE ----------------------------------------------------------------------------------------------------------------------------
 
     // VIEW PAGE CLOSE
     private void CloseViewPages()
     {
     }
-
-
 
     // SETTINGS PAGE ------------------------------------------------------------------------------------------------------------------------
 

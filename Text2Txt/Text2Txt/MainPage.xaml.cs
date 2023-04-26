@@ -20,12 +20,13 @@ public partial class MainPage : ContentPage
     public int InputMethod = 0;
     public string InputText = "";
     public string InputPath = "";
-    public string apiKey = "";
+    public string apiKey = "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";
 
 	public MainPage(ITesseract tesseract)
 	{
 		InitializeComponent();
-		Tesseract = tesseract;
+        Application.Current.UserAppTheme = AppTheme.Light;
+        Tesseract = tesseract;
         //Database.CreateDatabase();
         //Database.CheckTable();
         //apiKey = Database.RetrieveApiKey();
@@ -53,7 +54,6 @@ public partial class MainPage : ContentPage
         SimplifiedText.Text = aiBucket;
 		Status.Text = "Not Running";
 	}
-    
     private async Task<AIResponse> TextToAI(string text, int lexile, string apiKey)
     {
         string prompt = $"Simplify the reading level of this text to a lexile score of {lexile} -> {text}";
@@ -69,8 +69,9 @@ public partial class MainPage : ContentPage
         PageFlipper(2);
     }
     // VIEW TEXT PAGE
-    private void ViewButton_Clicked(object sender, EventArgs e)
+    private async void ViewButton_Clicked(object sender, EventArgs e)
     {
+        await FolderPickDocs();
         PageFlipper(3);
     }
     // SETTINGS PAGE
@@ -271,35 +272,58 @@ public partial class MainPage : ContentPage
             ResultPage.IsVisible = true;
             ResultLabel.Text = aI.Name;
             ResultTextBox.Text = aI.Text;
+            TimeSpan vibrationLength = TimeSpan.FromSeconds(1);
+            Vibration.Default.Vibrate(vibrationLength);
         }
     }
-    private void OCRNextButton_Clicked(object sender, EventArgs e)
+    private async void OCRNextButton_Clicked(object sender, EventArgs e)
     {
-        if (InputText == null)
-        {
-            DisplayAlert("Error", "Please select a valid image", "OK");
-        }
+        if (InputText == null) { await DisplayAlert("Error", "Please select a valid image", "OK"); }
         else
         {
             CloseCreatePages();
             CreateLoading.IsVisible = true;
             ActivityLabel.Text = "Creating Request...";
             ActivityLabel.Text = "Waiting on OpenAI...";
-            AIResponse aI = TextToAI(InputText, LexileLevel, apiKey).Result;
+            AIResponse aI = await TextToAI(InputText, LexileLevel, apiKey);
             CloseCreatePages();
             ResultPage.IsVisible = true;
             ResultLabel.Text = aI.Name;
             ResultTextBox.Text = aI.Text;
-
+            TimeSpan vibrationLength = TimeSpan.FromSeconds(1);
+            Vibration.Default.Vibrate(vibrationLength);
         }
     }
 
     // VIEW PAGE ----------------------------------------------------------------------------------------------------------------------------
 
     // VIEW PAGE CLOSE
+    private async Task<string> FolderPickDocs()
+    {
+
+        // Make user pick file
+#pragma warning disable CA1416 // Validate platform compatibility
+        var pickResult = await FilePicker.PickAsync(new PickOptions()
+        {
+            PickerTitle = "Select Document",
+            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>()
+            {
+                [DevicePlatform.Android] = new List<string>() { "application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain" }
+            })
+        });
+#pragma warning restore CA1416 // Validate platform compatibility
+        // null if user cancelled the operation
+        if (pickResult is null)
+        {
+            return null;
+        }
+        else
+            return null;
+    }
     private void CloseViewPages()
     {
     }
+
 
     // SETTINGS PAGE ------------------------------------------------------------------------------------------------------------------------
 

@@ -41,7 +41,8 @@ Text2Txt is designed as a part of the Mobile Application Development 2 Course at
 - - - -
 
 ### Credits
-The Bookstore API was developed by Decker Ayers.
+Developed by Decker Ayers.
 
 ### License
-The Bookstore API is licensed under the MIT License.
+App licensed under the MIT License.
+https://ayersdecker.github.io/Text2Txt-App/terms.html

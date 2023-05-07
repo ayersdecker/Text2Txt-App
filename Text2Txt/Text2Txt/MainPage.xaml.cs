@@ -4,6 +4,8 @@ using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Storage;
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Net;
 using System.Threading.Tasks;
 using TesseractOcrMaui;
 using TesseractOcrMaui.Extensions;
@@ -20,17 +22,15 @@ public partial class MainPage : ContentPage
     public int InputMethod = 0;
     public string InputText = "";
     public string InputPath = "";
-    public string apiKey = "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";
+    public string apiKey = "API KEY HERE";
 
 	public MainPage(ITesseract tesseract)
 	{
 		InitializeComponent();
+        ReadAPIKey();
+        Title = "Text2Txt";
         Application.Current.UserAppTheme = AppTheme.Light;
         Tesseract = tesseract;
-        //Database.CreateDatabase();
-        //Database.CheckTable();
-        //apiKey = Database.RetrieveApiKey();
-        //ApiKeyEntry.Placeholder = apiKey;
 	}
 	ITesseract Tesseract { get; }
 
@@ -48,7 +48,7 @@ public partial class MainPage : ContentPage
         string ocrBucket = await PerformOCR();
 		OutputText.Text = ocrBucket;
 		Status.Text = "Running AI";
-		string prompt = $"Simplify the reading level of this text to a lexile score of {lexileLevel} -> {ocrBucket}";
+		string prompt = $"Simplify the reading level of this text to a lexile score of {lexileLevel} without losing information -> {ocrBucket}";
         AI ai = new AI();
         string aiBucket = await AI.APICall(prompt, ai.apiKey);
         SimplifiedText.Text = aiBucket;
@@ -56,23 +56,40 @@ public partial class MainPage : ContentPage
 	}
     private async Task<AIResponse> TextToAI(string text, int lexile, string apiKey)
     {
-        string prompt = $"Simplify the reading level of this text to a lexile score of {lexile} -> {text}";
+
+        string prompt = $"Simplify the reading level of this text to a lexile score of {lexile} without losing information -> {text}";
         return await AI.AICALL(prompt, apiKey);
         
+    }
+    private void ResetBuckets()
+    {
+        InputText = "";
+        InputPath = "";
+        OutputText.Text = "";
+        SimplifiedText.Text = "";
+        LexileLevel = 0;
+        InputMethod = 0;
     }
 
     // MASTER PAGE ----------------------------------------------------------------------------------------------------------------------------
 
     // CREATE TEXT PAGE
-    private void CreateButton_Clicked(object sender, EventArgs e)
+    private async void CreateButton_Clicked(object sender, EventArgs e)
     {
+        bool result = await IsAPIKeyValid();
+        if(result)
         PageFlipper(2);
+        else
+        {
+            await DisplayAlert("Error", "Please enter a valid API key in the settings page", "OK");
+        }
     }
     // VIEW TEXT PAGE
     private async void ViewButton_Clicked(object sender, EventArgs e)
     {
-        await FolderPickDocs();
-        PageFlipper(3);
+
+        string filePath = await FolderPickDocs();
+        await OpenDocument(filePath);
     }
     // SETTINGS PAGE
     private void SettingButton_Clicked(object sender, EventArgs e)
@@ -116,10 +133,62 @@ public partial class MainPage : ContentPage
         CloseViewPages();
         CloseSettingsPages();
         PageFlipper(1);
+        ResetBuckets();
+    }
+
+    // API Storage
+    private async Task SaveAPIKey()
+    {
+        var path = FileSystem.Current.AppDataDirectory;
+        var fullPath = Path.Combine(path, "APIKey.txt");
+        apiKey = ApiKeyEntry.Text;
+        if (apiKey == "" || apiKey == "API KEY HERE")
+        {
+            await DisplayAlert("Error", "Please enter a valid API Key", "OK");
+            return;
+        }
+        else
+        {
+            File.WriteAllText(fullPath, apiKey);
+            await DisplayAlert("Success", "API Key Saved", "OK");
+        }
+    }
+    private void ReadAPIKey()
+    {
+        var path = FileSystem.Current.AppDataDirectory;
+        var fullPath = Path.Combine(path, "APIKey.txt");
+        if (File.Exists(fullPath))
+        {
+            apiKey = File.ReadAllText(fullPath);
+        }
+        else
+        {
+            apiKey = "API KEY HERE";
+        }
+        ApiKeyEntry.Text = apiKey;
+    }
+    private async Task<bool> IsAPIKeyValid()
+    {
+        Title = "Checking API Key";
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+
+        var request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri("https://api.openai.com/v1/completions"),
+            Content = new StringContent("{\n   \"model\": \"text-davinci-003\", \"prompt\": \"" + $"Check\",\n    \"max_tokens\": 20,\n    \"temperature\": 0.5\n}}")
+
+        };
+        request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+        var response = await client.SendAsync(request);
+        Title = "Text2Txt";
+        return response.StatusCode == HttpStatusCode.OK;
     }
 
     // CREATE PAGE --------------------------------------------------------------------------------------------------------------------------
-    
+
     // CREATE PAGE CLOSE
     private void CloseCreatePages()
     {
@@ -240,10 +309,10 @@ public partial class MainPage : ContentPage
         InputPath = pickResult.FullPath;
         return result.RecognisedText;
     }
-    private async Task PickFromFolderButton_Clicked(object sender, EventArgs e)
+    private async void PickFromFolderButton_Clicked(object sender, EventArgs e)
     {
         InputText = await PerformOCR();
-        if(InputText == null)
+        if(InputPath == null || InputPath == "")
         {
             await DisplayAlert("Error", "Please select a valid image", "OK");
             PathLabel.Text = "Path: null";
@@ -253,10 +322,6 @@ public partial class MainPage : ContentPage
             PathLabel.Text = "Path: Selected";
         }
     }
-    private void PickFromFolderButton_Clicked_1(object sender, EventArgs e)
-    {
-        PickFromFolderButton_Clicked(sender, e);
-    } 
     private async void PasteNextButton_Clicked(object sender, EventArgs e)
     {
         InputText = PasteEditor.Text;
@@ -278,20 +343,27 @@ public partial class MainPage : ContentPage
     }
     private async void OCRNextButton_Clicked(object sender, EventArgs e)
     {
-        if (InputText == null) { await DisplayAlert("Error", "Please select a valid image", "OK"); }
+        if (apiKey != "API KEY HERE")
+        {
+            if (InputText == null) { await DisplayAlert("Error", "Please select a valid image", "OK"); }
+            else
+            {
+                CloseCreatePages();
+                CreateLoading.IsVisible = true;
+                ActivityLabel.Text = "Creating Request...";
+                ActivityLabel.Text = "Waiting on OpenAI...";
+                AIResponse aI = await TextToAI(InputText, LexileLevel, apiKey);
+                CloseCreatePages();
+                ResultPage.IsVisible = true;
+                ResultLabel.Text = aI.Name;
+                ResultTextBox.Text = aI.Text;
+                TimeSpan vibrationLength = TimeSpan.FromSeconds(1);
+                Vibration.Default.Vibrate(vibrationLength);
+            }
+        }
         else
         {
-            CloseCreatePages();
-            CreateLoading.IsVisible = true;
-            ActivityLabel.Text = "Creating Request...";
-            ActivityLabel.Text = "Waiting on OpenAI...";
-            AIResponse aI = await TextToAI(InputText, LexileLevel, apiKey);
-            CloseCreatePages();
-            ResultPage.IsVisible = true;
-            ResultLabel.Text = aI.Name;
-            ResultTextBox.Text = aI.Text;
-            TimeSpan vibrationLength = TimeSpan.FromSeconds(1);
-            Vibration.Default.Vibrate(vibrationLength);
+            await DisplayAlert("Error", "Please enter an API key in settings", "OK");
         }
     }
 
@@ -318,11 +390,20 @@ public partial class MainPage : ContentPage
             return null;
         }
         else
-            return null;
+            return pickResult.FullPath;
     }
     private void CloseViewPages()
     {
     }
+
+    private async Task OpenDocument(string filePath)
+    {
+        await Launcher.OpenAsync(new OpenFileRequest
+        {
+            File = new ReadOnlyFile(filePath)
+        });
+    }
+
 
 
     // SETTINGS PAGE ------------------------------------------------------------------------------------------------------------------------
@@ -332,5 +413,29 @@ public partial class MainPage : ContentPage
     {
     }
 
-   
+    private async void SaveSettingButton_Clicked(object sender, EventArgs e)
+    {
+        apiKey = ApiKeyEntry.Text;
+        
+        bool result = await IsAPIKeyValid();
+        if (result) 
+        {
+            BackButton_Clicked(sender, e); 
+            await SaveAPIKey(); 
+        }
+        else
+        {
+            await DisplayAlert("Error", "Please enter a valid API key in the settings page", "OK");
+        }
+    }
+
+    private void OpenAiInfoButton_Clicked(object sender, EventArgs e)
+    {
+        Launcher.OpenAsync("https://platform.openai.com/account/api-keys");
+    }
+
+    private void Text2TxtInfoButton_Clicked(object sender, EventArgs e)
+    {
+        Launcher.OpenAsync("https://github.com/ayersdecker/Text2Txt-App");
+    }
 }

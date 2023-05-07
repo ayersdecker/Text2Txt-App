@@ -32,7 +32,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\Images\dalogo.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\Images\textlogo.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Images\dalogo.svg" Color="#512BD4" BaseSize="128,128" />
@@ -51,6 +51,8 @@
 	<ItemGroup>
 	  <None Remove="Resources\Images\dalogo.svg" />
 	  <None Remove="Resources\Images\dotnet_bot.svg" />
+	  <None Remove="Resources\Images\textlogo.svg" />
+	  <None Remove="Resources\Images\texttwotxt.svg" />
 	  <None Remove="Resources\Raw\eng.traineddata" />
 	</ItemGroup>
 

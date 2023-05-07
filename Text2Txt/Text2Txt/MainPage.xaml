@@ -39,21 +39,60 @@
                         FontSize="Medium"
                         FontAttributes="Bold"
                         HeightRequest="100"
-                        Clicked="CreateButton_Clicked"/>
+                        Clicked="CreateButton_Clicked">
+                    <Button.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Color="#20666666"
+                          Offset="0.002" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.1" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.86" />
+                            <GradientStop Color="#20666666"
+                          Offset="0.99" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
                 <Button x:Name="ViewButton"
                         Margin="20,20,20,0"
                         Text="View Past Files"
                         FontSize="Medium"
                         FontAttributes="Bold"
                         HeightRequest="100"
-                        Clicked="ViewButton_Clicked"/>
+                        Clicked="ViewButton_Clicked">
+                    <Button.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Color="#20666666"
+                          Offset="0.002" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.1" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.76" />
+                            <GradientStop Color="#20666666"
+                          Offset="0.99" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
                 <Button x:Name="SettingButton"
                         Margin="20,20,20,0"
                         Text="Settings"
                         FontSize="Medium"
                         FontAttributes="Bold"
                         HeightRequest="100"
-                        Clicked="SettingButton_Clicked"/>
+                        Clicked="SettingButton_Clicked">
+                    <Button.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Color="#20666666"
+                          Offset="0.002" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.1" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.66" />
+                            <GradientStop Color="#20666666"
+                          Offset="0.99" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
             </VerticalStackLayout>
 
             <!--Create Texts-->
@@ -84,7 +123,7 @@
                 <VerticalStackLayout x:Name="OCRMenu" IsVisible="false">
                     <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
                     <Label x:Name="PathLabel" Text="Path: null" HorizontalOptions="Center" Margin="20,150,20,20"/>
-                    <Button x:Name="PickFromFolderButton" Text="Select" WidthRequest="200" Clicked="PickFromFolderButton_Clicked_1"/>
+                    <Button x:Name="PickFromFolderButton" Text="Select" WidthRequest="200" Clicked="PickFromFolderButton_Clicked"/>
                     <Button x:Name="OCRNextButton" Text="Next" WidthRequest="200" Margin="150" Clicked="OCRNextButton_Clicked"/>
                 </VerticalStackLayout>
                 <!--File-->
@@ -95,7 +134,8 @@
                 <!--Paste-->
                 <VerticalStackLayout x:Name="PasteMenu" IsVisible="false">
                     <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
-                    <Editor x:Name="PasteEditor" Placeholder="Paste your text here"/>
+                    <Label Text="Paste" Margin="10,50,10,0" FontSize="15" FontAttributes="Bold"/>
+                    <Editor x:Name="PasteEditor" Margin="10" Placeholder="Paste your text here"/>
                     <Button x:Name="PasteNextButton" Text="Next" WidthRequest="200" Margin="150" Clicked="PasteNextButton_Clicked"/>
                 </VerticalStackLayout>
                 <!--LoadingPage-->
@@ -120,13 +160,80 @@
             
             <!--Settings Screen-->
             <VerticalStackLayout x:Name="SettingsPage" IsVisible="false">
-                <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
-                <Label Text="OpenAI API Key" Margin="10"/>
-                <Entry x:Name="ApiKeyEntry" Placeholder="Place Key Here" Margin="10"/>
-                <Button x:Name="SaveSettingButton"
-                    Text="Save" 
-                    Margin="0,50,0,0"
-                    WidthRequest="200"/>
+                <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked">
+                    <Button.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Color="#20666666"
+                          Offset="0.002" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.1" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.86" />
+                            <GradientStop Color="#20666666"
+                          Offset="0.99" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                        
+                        <Label Text="OpenAI API Key" Margin="10,50,10,0" FontSize="15" FontAttributes="Bold"/>
+                        <Entry x:Name="ApiKeyEntry" Placeholder="API KEY HERE" FontSize="12" Margin="10,20,10,0" BackgroundColor="#CCCCCC"/>
+                        <HorizontalStackLayout HorizontalOptions="Center">
+                            <Button x:Name="OpenAiInfoButton"
+                            Text="Where do I find a key ?"
+                            Margin="0,50,5,0"
+                            WidthRequest="200"
+                            Clicked="OpenAiInfoButton_Clicked">
+                                <Button.Background>
+                                    <LinearGradientBrush>
+                                        <GradientStop Color="#20666666"
+                          Offset="0.002" />
+                                        <GradientStop Color="#6600FF"
+                          Offset="0.1" />
+                                        <GradientStop Color="#6600FF"
+                          Offset="0.86" />
+                                        <GradientStop Color="#20666666"
+                          Offset="0.99" />
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                            <Button x:Name="SaveSettingButton"
+                                Text="Save" 
+                                Margin="5,50,0,0"
+                                WidthRequest="150"
+                                Clicked="SaveSettingButton_Clicked">
+                                <Button.Background>
+                                    <LinearGradientBrush>
+                                        <GradientStop Color="#20666666"
+                          Offset="0.002" />
+                                        <GradientStop Color="#6600FF"
+                          Offset="0.1" />
+                                        <GradientStop Color="#6600FF"
+                          Offset="0.86" />
+                                        <GradientStop Color="#20666666"
+                          Offset="0.99" />
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+
+                        </HorizontalStackLayout>
+                <Button x:Name="Text2TxtInfoButton"
+                                Margin="0,250,0,0"
+                            Text="Text2Txt Information"
+                            WidthRequest="300"
+                            Clicked="Text2TxtInfoButton_Clicked">
+                    <Button.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Color="#20666666"
+                          Offset="0.002" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.1" />
+                            <GradientStop Color="#6600FF"
+                          Offset="0.86" />
+                            <GradientStop Color="#20666666"
+                          Offset="0.99" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
             </VerticalStackLayout>
             
 

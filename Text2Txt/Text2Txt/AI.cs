@@ -14,6 +14,7 @@ namespace Text2Txt
 
         public static async Task<string> APICall(string prompt, string apiKey) // Takes the prompt and the API key and returns the response
         {
+            try {
             // API call
             var client = new HttpClient();
             prompt = prompt.Replace("\r", "").Replace("\n", " ").Replace("\"", " ");
@@ -32,7 +33,12 @@ namespace Text2Txt
 
             // Returns the Response Deserialized
             dynamic json = JsonConvert.DeserializeObject(responseContent);
-            return json.choices[0].text;
+            return json.choices[0].text; 
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
 
         }
         public static async Task<AIResponse> AICALL(string prompt, string apiKey)

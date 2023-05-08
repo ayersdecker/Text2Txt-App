@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using TesseractOcrMaui;
 using TesseractOcrMaui.Extensions;
 using Text2Txt.Models;
+using System.Text;
+using CommunityToolkit.Maui.Storage;
 
 namespace Text2Txt;
 
@@ -23,11 +25,14 @@ public partial class MainPage : ContentPage
     public string InputText = "";
     public string InputPath = "";
     public string apiKey = "API KEY HERE";
+    public IFileSaver fileSaver;
+    public CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-	public MainPage(ITesseract tesseract)
+	public MainPage(ITesseract tesseract, IFileSaver fileSaver)
 	{
 		InitializeComponent();
         ReadAPIKey();
+        this.fileSaver = fileSaver;
         Title = "Text2Txt";
         Application.Current.UserAppTheme = AppTheme.Light;
         Tesseract = tesseract;
@@ -87,9 +92,9 @@ public partial class MainPage : ContentPage
     // VIEW TEXT PAGE
     private async void ViewButton_Clicked(object sender, EventArgs e)
     {
-
-        string filePath = await FolderPickDocs();
-        await OpenDocument(filePath);
+        var path = FileSystem.Current.AppDataDirectory;
+        var fullPath = Path.Combine(path, "Current.txt");
+        await OpenDocument(fullPath);
     }
     // SETTINGS PAGE
     private void SettingButton_Clicked(object sender, EventArgs e)
@@ -149,7 +154,7 @@ public partial class MainPage : ContentPage
         }
         else
         {
-            File.WriteAllText(fullPath, apiKey);
+            
             await DisplayAlert("Success", "API Key Saved", "OK");
         }
     }
@@ -269,13 +274,45 @@ public partial class MainPage : ContentPage
                     OCRMenu.IsVisible = true;
                     break;
                 case 2:
-                    FileMenu.IsVisible = true;
+                    //FromFileRead(sender, e);
                     break;
                 case 3:
                     PasteMenu.IsVisible = true;
                     break;
             }
         }
+    }
+    private async void FromFileRead(object sender, EventArgs ex)
+    {
+        /*try 
+        {
+            object path = await FolderPickDocs();
+            if (path != null)
+            {
+                Microsoft.Office.Interop.Word.Application word = new Microsoft.Office.Interop.Word.Application();
+                object miss = System.Reflection.Missing.Value;
+                object readOnly = true;
+                Microsoft.Office.Interop.Word.Document docs = word.Documents.Open(ref path, ref miss, ref readOnly, ref miss, ref miss,
+                            ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, ref miss);
+                string totaltext = "";      //the whole document
+                for (int i = 0; i < docs.Paragraphs.Count; i++)
+                {
+                    //Determine the beginning of an entire paragraph and intercept the table name
+                    //Get the column name
+                    //......
+                    totaltext += docs.Paragraphs[i + 1].Range.Text.ToString();
+                }
+                InputText = totaltext;
+                docs.Close();
+                word.Quit();
+            }
+            OCRNextButton_Clicked(sender, ex);
+
+        }
+        catch (Exception e)
+        {
+            await DisplayAlert("Error", "Please select a valid file", "OK");
+        }*/
     }
     private async Task<string> PerformOCR()
     {
@@ -311,15 +348,23 @@ public partial class MainPage : ContentPage
     }
     private async void PickFromFolderButton_Clicked(object sender, EventArgs e)
     {
-        InputText = await PerformOCR();
-        if(InputPath == null || InputPath == "")
+        try {
+            InputText = await PerformOCR();
+            if(InputPath == null || InputPath == "")
+            {
+                await DisplayAlert("Error", "Please select a valid image", "OK");
+                PathLabel.Text = "Path: null";
+            }
+            else
+            {
+                PathLabel.Text = "Path: Selected";
+                OCRNextButton.IsVisible = true;
+            } 
+        }
+        catch (Exception ex)
         {
             await DisplayAlert("Error", "Please select a valid image", "OK");
             PathLabel.Text = "Path: null";
-        }
-        else
-        {
-            PathLabel.Text = "Path: Selected";
         }
     }
     private async void PasteNextButton_Clicked(object sender, EventArgs e)
@@ -348,6 +393,7 @@ public partial class MainPage : ContentPage
             if (InputText == null) { await DisplayAlert("Error", "Please select a valid image", "OK"); }
             else
             {
+                try { 
                 CloseCreatePages();
                 CreateLoading.IsVisible = true;
                 ActivityLabel.Text = "Creating Request...";
@@ -357,13 +403,46 @@ public partial class MainPage : ContentPage
                 ResultPage.IsVisible = true;
                 ResultLabel.Text = aI.Name;
                 ResultTextBox.Text = aI.Text;
+                await CreateDocument(aI.Text);
                 TimeSpan vibrationLength = TimeSpan.FromSeconds(1);
                 Vibration.Default.Vibrate(vibrationLength);
+                ResetBuckets();
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", "OpenAi Conversion Falure", "OK");
+                }
             }
         }
         else
         {
             await DisplayAlert("Error", "Please enter an API key in settings", "OK");
+        }
+    }
+
+    // DOCUMENT ----------------------------------------------------------------------------------------------------------------------------
+
+    private async Task CreateDocument(string text)
+    {
+        try
+        {
+            var path = FileSystem.Current.AppDataDirectory;
+            var fullPath = Path.Combine(path, "Current.txt");
+            if (File.Exists(fullPath))
+            {
+                File.WriteAllText(fullPath, text);
+                await OpenDocument(fullPath);
+            }
+            else
+            {
+                File.WriteAllText(fullPath, text);
+                await OpenDocument(fullPath);
+            }
+
+        }
+        catch
+        {
+            // Exception thrown when user cancels
         }
     }
 

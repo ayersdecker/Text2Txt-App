@@ -55,7 +55,7 @@
                 </Button>
                 <Button x:Name="ViewButton"
                         Margin="20,20,20,0"
-                        Text="View Past Files"
+                        Text="View Past Document"
                         FontSize="Medium"
                         FontAttributes="Bold"
                         HeightRequest="100"
@@ -114,7 +114,7 @@
                     <Label Text="What Input Method do you choose?" HorizontalOptions="Center" Margin="0,150,0,0" FontSize="Medium" FontAttributes="Bold"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="0,50,0,0" >
                         <Button x:Name="CaptureButton" Text="Capture" Clicked="CaptureButton_Clicked"  Background="#BBBBBB" WidthRequest="100"/>
-                        <Button IsEnabled="False" x:Name="FromFileButton" Text="From File" Clicked="FromFileButton_Clicked" Background="#BBBBBB" WidthRequest="100"/>
+                        <Button IsVisible="false" x:Name="FromFileButton" Text="From File" Clicked="FromFileButton_Clicked" Background="#BBBBBB" WidthRequest="100"/>
                         <Button x:Name="PasteButton" Text="Paste" Clicked="PasteButton_Clicked" Background="#BBBBBB" WidthRequest="100"/>
                     </StackLayout>
                     <Button x:Name="InputMethodNextButton" Text="Next >" Margin="20,150,20,0" Clicked="InputMethodNextButton_Clicked"/>
@@ -124,7 +124,7 @@
                     <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
                     <Label x:Name="PathLabel" Text="Path: null" HorizontalOptions="Center" Margin="20,150,20,20"/>
                     <Button x:Name="PickFromFolderButton" Text="Select" WidthRequest="200" Clicked="PickFromFolderButton_Clicked"/>
-                    <Button x:Name="OCRNextButton" Text="Next" WidthRequest="200" Margin="150" Clicked="OCRNextButton_Clicked"/>
+                    <Button IsVisible= "False" x:Name="OCRNextButton" Text="Next" WidthRequest="200" Margin="150" Clicked="OCRNextButton_Clicked"/>
                 </VerticalStackLayout>
                 <!--File-->
                 <VerticalStackLayout x:Name="FileMenu" IsVisible="false">
@@ -135,7 +135,7 @@
                 <VerticalStackLayout x:Name="PasteMenu" IsVisible="false">
                     <Button Text="X" WidthRequest="50" Margin="10" HorizontalOptions="End" Clicked="BackButton_Clicked"/>
                     <Label Text="Paste" Margin="10,50,10,0" FontSize="15" FontAttributes="Bold"/>
-                    <Editor x:Name="PasteEditor" Margin="10" Placeholder="Paste your text here"/>
+                    <Editor x:Name="PasteEditor" Margin="10" PlaceholderColor="Black" Placeholder="Paste your text here" BackgroundColor="#cccccc"/>
                     <Button x:Name="PasteNextButton" Text="Next" WidthRequest="200" Margin="150" Clicked="PasteNextButton_Clicked"/>
                 </VerticalStackLayout>
                 <!--LoadingPage-->

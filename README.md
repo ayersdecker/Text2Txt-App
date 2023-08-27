@@ -1,6 +1,6 @@
 # Text2Txt - App 
 
-### Android Release 1.0 coming May 8th 2023!
+### Android Release 1.0 
 
 - - - -
 
